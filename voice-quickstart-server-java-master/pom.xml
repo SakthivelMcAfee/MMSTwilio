@@ -30,6 +30,26 @@
             <version>7.17.0</version>
         </dependency>
         <dependency>
+            <groupId>com.twilio.jwt</groupId>
+            <artifactId>twiliojwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twilio.type</groupId>
+            <artifactId>twiliojwttype</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twilio.twiml</groupId>
+            <artifactId>twiliotwiml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twilio.http</groupId>
+            <artifactId>twiliothttp</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.twilio.rest</groupId>
+            <artifactId>twiliothttprest</artifactId>
+        </dependency>
+        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.2.2</version>

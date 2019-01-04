@@ -1,2 +1,2 @@
-mvn package
+mvn clean install
 web: java -cp target/classes/:target/dependency/* com.twilio.Webapp

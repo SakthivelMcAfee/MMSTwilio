@@ -44,134 +44,134 @@ public class Webapp {
         
         System.out.println("Inside webapp main");
         // Load the .env file into environment
-        dotenv();
-
-        // Log all requests and responses
-        afterAfter(new LoggingFilter());
-
-        get("/", (request, response) -> {
-            return welcome();
-        });
-
-        post("/", (request, response) -> {
-           return welcome();
-        });
-
-        /**
-         * Creates an access token with VoiceGrant using your Twilio credentials.
-         *
-         * @returns The Access Token string
-         */
-        get("/accessToken", (request, response) -> {
-            // Read the identity param provided
-            final String identity = request.queryParams("identity") != null ? request.queryParams("identity") : IDENTITY;
-            return getAccessToken(identity);
-        });
-
-        /**
-         * Creates an access token with VoiceGrant using your Twilio credentials.
-         *
-         * @returns The Access Token string
-         */
-        post("/accessToken", (request, response) -> {
-            // Read the identity param provided
-            String identity = null;
-            List<NameValuePair> pairs = URLEncodedUtils.parse(request.body(), Charset.defaultCharset());
-            Map<String, String> params = toMap(pairs);
-            try {
-                identity = params.get("identity");
-            } catch (Exception e) {
-                return "Error: " + e.getMessage();
-            }
-            return getAccessToken(identity != null ? identity : IDENTITY);
-        });
-
-        /**
-         * Creates an endpoint that can be used in your TwiML App as the Voice Request Url.
-         * <br><br>
-         * In order to make an outgoing call using Twilio Voice SDK, you need to provide a
-         * TwiML App SID in the Access Token. You can run your server, make it publicly
-         * accessible and use `/makeCall` endpoint as the Voice Request Url in your TwiML App.
-         * <br><br>
-         *
-         * @returns The TwiMl used to respond to an outgoing call
-         */
-        get("/makeCall", (request, response) -> {
-            final String to = request.queryParams("to");
-            System.out.println(to);
-            return call(to);
-        });
-
-        /**
-         * Creates an endpoint that can be used in your TwiML App as the Voice Request Url.
-         * <br><br>
-         * In order to make an outgoing call using Twilio Voice SDK, you need to provide a
-         * TwiML App SID in the Access Token. You can run your server, make it publicly
-         * accessible and use `/makeCall` endpoint as the Voice Request Url in your TwiML App.
-         *
-         * <br><br>
-         *
-         * @returns The TwiMl used to respond to an outgoing call
-         */
-        post("/makeCall", (request, response) -> {
-            String to = "";
-            List<NameValuePair> pairs = URLEncodedUtils.parse(request.body(), Charset.defaultCharset());
-            Map<String, String> params = toMap(pairs);
-            try {
-                to = params.get("to");
-            } catch (Exception e) {
-                return "Error: " + e.getMessage();
-            }
-            System.out.println(to);
-            return call(to);
-        });
-
-        /**
-         * Makes a call to the specified client using the Twilio REST API.
-         *
-         * @returns The CallSid
-         */
-        get("/placeCall", (request, response) -> {
-            final String to = request.queryParams("to");
-            // The fully qualified URL that should be consulted by Twilio when the call connects.
-            URI uri = URI.create(request.scheme() + "://" + request.host() + "/incoming");
-            System.out.println(uri.toURL().toString());
-            return callUsingRestClient(to, uri);
-        });
-
-        /**
-         * Makes a call to the specified client using the Twilio REST API.
-         *
-         * @returns The CallSid
-         */
-        post("/placeCall", (request, response) -> {
-            String to = "";
-            List<NameValuePair> pairs = URLEncodedUtils.parse(request.body(), Charset.defaultCharset());
-            Map<String, String> params = toMap(pairs);
-            try {
-                to = params.get("to");
-            } catch (Exception e) {
-                return "Error: " + e.getMessage();
-            }
-            // The fully qualified URL that should be consulted by Twilio when the call connects.
-            URI uri = URI.create(request.scheme() + "://" + request.host() + "/incoming");
-            System.out.println(uri.toURL().toString());
-            return callUsingRestClient(to, uri);
-        });
-
-        /**
-         * Creates an endpoint that plays back a greeting.
-         */
-        get("/incoming", (request, response) -> {
-            return greet();
-        });
-
-        /**
-         * Creates an endpoint that plays back a greeting.
-         */
-        post("/incoming", (request, response) -> {
-            return greet();
-        });
+//        dotenv();
+//
+//        // Log all requests and responses
+//        afterAfter(new LoggingFilter());
+//
+//        get("/", (request, response) -> {
+//            return welcome();
+//        });
+//
+//        post("/", (request, response) -> {
+//           return welcome();
+//        });
+//
+//        /**
+//         * Creates an access token with VoiceGrant using your Twilio credentials.
+//         *
+//         * @returns The Access Token string
+//         */
+//        get("/accessToken", (request, response) -> {
+//            // Read the identity param provided
+//            final String identity = request.queryParams("identity") != null ? request.queryParams("identity") : IDENTITY;
+//            return getAccessToken(identity);
+//        });
+//
+//        /**
+//         * Creates an access token with VoiceGrant using your Twilio credentials.
+//         *
+//         * @returns The Access Token string
+//         */
+//        post("/accessToken", (request, response) -> {
+//            // Read the identity param provided
+//            String identity = null;
+//            List<NameValuePair> pairs = URLEncodedUtils.parse(request.body(), Charset.defaultCharset());
+//            Map<String, String> params = toMap(pairs);
+//            try {
+//                identity = params.get("identity");
+//            } catch (Exception e) {
+//                return "Error: " + e.getMessage();
+//            }
+//            return getAccessToken(identity != null ? identity : IDENTITY);
+//        });
+//
+//        /**
+//         * Creates an endpoint that can be used in your TwiML App as the Voice Request Url.
+//         * <br><br>
+//         * In order to make an outgoing call using Twilio Voice SDK, you need to provide a
+//         * TwiML App SID in the Access Token. You can run your server, make it publicly
+//         * accessible and use `/makeCall` endpoint as the Voice Request Url in your TwiML App.
+//         * <br><br>
+//         *
+//         * @returns The TwiMl used to respond to an outgoing call
+//         */
+//        get("/makeCall", (request, response) -> {
+//            final String to = request.queryParams("to");
+//            System.out.println(to);
+//            return call(to);
+//        });
+//
+//        /**
+//         * Creates an endpoint that can be used in your TwiML App as the Voice Request Url.
+//         * <br><br>
+//         * In order to make an outgoing call using Twilio Voice SDK, you need to provide a
+//         * TwiML App SID in the Access Token. You can run your server, make it publicly
+//         * accessible and use `/makeCall` endpoint as the Voice Request Url in your TwiML App.
+//         *
+//         * <br><br>
+//         *
+//         * @returns The TwiMl used to respond to an outgoing call
+//         */
+//        post("/makeCall", (request, response) -> {
+//            String to = "";
+//            List<NameValuePair> pairs = URLEncodedUtils.parse(request.body(), Charset.defaultCharset());
+//            Map<String, String> params = toMap(pairs);
+//            try {
+//                to = params.get("to");
+//            } catch (Exception e) {
+//                return "Error: " + e.getMessage();
+//            }
+//            System.out.println(to);
+//            return call(to);
+//        });
+//
+//        /**
+//         * Makes a call to the specified client using the Twilio REST API.
+//         *
+//         * @returns The CallSid
+//         */
+//        get("/placeCall", (request, response) -> {
+//            final String to = request.queryParams("to");
+//            // The fully qualified URL that should be consulted by Twilio when the call connects.
+//            URI uri = URI.create(request.scheme() + "://" + request.host() + "/incoming");
+//            System.out.println(uri.toURL().toString());
+//            return callUsingRestClient(to, uri);
+//        });
+//
+//        /**
+//         * Makes a call to the specified client using the Twilio REST API.
+//         *
+//         * @returns The CallSid
+//         */
+//        post("/placeCall", (request, response) -> {
+//            String to = "";
+//            List<NameValuePair> pairs = URLEncodedUtils.parse(request.body(), Charset.defaultCharset());
+//            Map<String, String> params = toMap(pairs);
+//            try {
+//                to = params.get("to");
+//            } catch (Exception e) {
+//                return "Error: " + e.getMessage();
+//            }
+//            // The fully qualified URL that should be consulted by Twilio when the call connects.
+//            URI uri = URI.create(request.scheme() + "://" + request.host() + "/incoming");
+//            System.out.println(uri.toURL().toString());
+//            return callUsingRestClient(to, uri);
+//        });
+//
+//        /**
+//         * Creates an endpoint that plays back a greeting.
+//         */
+//        get("/incoming", (request, response) -> {
+//            return greet();
+//        });
+//
+//        /**
+//         * Creates an endpoint that plays back a greeting.
+//         */
+//        post("/incoming", (request, response) -> {
+//            return greet();
+//        });
     }
 
     private static String getAccessToken(final String identity) {

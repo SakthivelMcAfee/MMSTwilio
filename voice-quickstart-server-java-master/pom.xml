@@ -27,9 +27,9 @@
         <dependency>
             <groupId>com.twilio.sdk</groupId>
             <artifactId>twilio</artifactId>
-            <version>7.17.0</version>
+            <version>7.33.0</version>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>com.twilio.jwt</groupId>
             <artifactId>twiliojwt</artifactId>
         </dependency>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>com.twilio.rest</groupId>
             <artifactId>twiliothttprest</artifactId>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>

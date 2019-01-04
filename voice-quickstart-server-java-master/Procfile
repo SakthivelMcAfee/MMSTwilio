@@ -1,1 +1,2 @@
+mvn package
 web: java -cp target/classes/:target/dependency/* Webapp

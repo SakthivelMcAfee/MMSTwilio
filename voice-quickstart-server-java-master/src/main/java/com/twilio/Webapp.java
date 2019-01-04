@@ -43,6 +43,7 @@ public class Webapp {
     public static void main(String[] args) throws Exception {
         
         System.out.println("Inside webapp main");
+        VoiceGrant grant = new VoiceGrant();
         // Load the .env file into environment
 //        dotenv();
 //
@@ -174,134 +175,134 @@ public class Webapp {
 //        });
     }
 
-    private static String getAccessToken(final String identity) {
-        // Create Voice grant
-        VoiceGrant grant = new VoiceGrant();
-        grant.setOutgoingApplicationSid(System.getProperty("APcf749bcdf662428ca0f72c849ecf2bae"));
-        grant.setPushCredentialSid(System.getProperty("CRbc6e28e1618cf942df51d9301502f661"));
-
-        // Create access token
-        AccessToken token = new AccessToken.Builder(
-                System.getProperty("AC66bc64965d81ae519b6326a8090fde4c"),
-                System.getProperty("SK76aa34aceb99c0309087ac8b17ac538a"),
-                System.getProperty("VjNenmtap59MW9mnOnGqRdXaB47oJ59q")
-        ).identity(identity).grant(grant).build();
-        System.out.println(token.toJwt());
-        return token.toJwt();
-    }
-
-    private static String call(final String to) {
-        VoiceResponse voiceResponse;
-        String toXml = null;
-        if (to == null || to.isEmpty()) {
-            Say say = new Say.Builder("Congratulations! You have made your first call! Good bye.").build();
-            voiceResponse = new VoiceResponse.Builder().say(say).build();
-        } else if (isPhoneNumber(to)) {
-            Number number = new Number.Builder(to).build();
-            Dial dial = new Dial.Builder().callerId(CALLER_NUMBER).number(number)
-                    .build();
-            voiceResponse = new VoiceResponse.Builder().dial(dial).build();
-        } else {
-            Client client = new Client.Builder(to).build();
-            Dial dial = new Dial.Builder().callerId(CALLER_ID).client(client)
-                    .build();
-            voiceResponse = new VoiceResponse.Builder().dial(dial).build();
-        }
-        try {
-            toXml = voiceResponse.toXml();
-        } catch (TwiMLException e) {
-            e.printStackTrace();
-        }
-        return toXml;
-    }
-
-    private static String callUsingRestClient(final String to, final URI uri) {
-        final TwilioRestClient client = new TwilioRestClient.Builder(System.getProperty("SK76aa34aceb99c0309087ac8b17ac538a"), System.getProperty("VjNenmtap59MW9mnOnGqRdXaB47oJ59q"))
-                .accountSid(System.getProperty("AC66bc64965d81ae519b6326a8090fde4c"))
-                .build();
-
-        if (to == null || to.isEmpty()) {
-            com.twilio.type.Client clientEndpoint = new com.twilio.type.Client("client:" + IDENTITY);
-            PhoneNumber from = new PhoneNumber(CALLER_ID);
-            // Make the call
-            Call call = Call.creator(clientEndpoint, from, uri).setMethod(HttpMethod.GET).create(client);
-            // Print the call SID (a 32 digit hex like CA123..)
-            System.out.println(call.getSid());
-            return call.getSid();
-        } else if (isNumeric(to)) {
-            com.twilio.type.Client clientEndpoint = new com.twilio.type.Client(to);
-            PhoneNumber from = new PhoneNumber(CALLER_NUMBER);
-            // Make the call
-            Call call = Call.creator(clientEndpoint, from, uri).setMethod(HttpMethod.GET).create(client);
-            // Print the call SID (a 32 digit hex like CA123..)
-            System.out.println(call.getSid());
-            return call.getSid();
-        } else {
-            com.twilio.type.Client clientEndpoint = new com.twilio.type.Client("client:" + to);
-            PhoneNumber from = new PhoneNumber(CALLER_ID);
-            // Make the call
-            Call call = Call.creator(clientEndpoint, from, uri).setMethod(HttpMethod.GET).create(client);
-            // Print the call SID (a 32 digit hex like CA123..)
-            System.out.println(call.getSid());
-            return call.getSid();
-        }
-    }
-
-    private static String greet() {
-        VoiceResponse voiceResponse;
-        Say say = new Say.Builder("Congratulations! You have received your first inbound call! Good bye.").build();
-        voiceResponse = new VoiceResponse.Builder().say(say).build();
-        System.out.println(voiceResponse.toXml().toString());
-        return voiceResponse.toXml();
-    }
-
-    private static String welcome() {
-        VoiceResponse voiceResponse;
-        Say say = new Say.Builder("Welcome to Twilio").build();
-        voiceResponse = new VoiceResponse.Builder().say(say).build();
-        System.out.println(voiceResponse.toXml().toString());
-        return voiceResponse.toXml();
-    }
-
-    private static void dotenv() throws Exception {
-        final File env = new File(".env");
-        if (!env.exists()) {
-            return;
-        }
-
-        final Properties props = new Properties();
-        props.load(new FileInputStream(env));
-        props.putAll(System.getenv());
-        props.entrySet().forEach(p -> System.setProperty(p.getKey().toString(), p.getValue().toString()));
-    }
-
-    private static Map<String, String> toMap(final List<NameValuePair> pairs) {
-        Map<String, String> map = new HashMap<>();
-        for (int i = 0; i < pairs.size(); i++) {
-            NameValuePair pair = pairs.get(i);
-            System.out.println("NameValuePair - name=" + pair.getName() + " value=" + pair.getValue());
-            map.put(pair.getName(), pair.getValue());
-        }
-        return map;
-    }
-
-    private static boolean isPhoneNumber(String s) {
-        if (s.length() == 1) {
-            return isNumeric(s);
-        } else if (s.charAt(0) == '+') {
-            return isNumeric(s.substring(1));
-        } else {
-            return isNumeric(s);
-        }
-    }
-
-    private static boolean isNumeric(String s) {
-        int len = s.length();
-        for (int i = 0; i < len; ++i) {
-            if (!Character.isDigit(s.charAt(i))) {
-                return false;
-            }
-        }
-        return true;
-    }
+//    private static String getAccessToken(final String identity) {
+//        // Create Voice grant
+//        VoiceGrant grant = new VoiceGrant();
+//        grant.setOutgoingApplicationSid(System.getProperty("APcf749bcdf662428ca0f72c849ecf2bae"));
+//        grant.setPushCredentialSid(System.getProperty("CRbc6e28e1618cf942df51d9301502f661"));
+//
+//        // Create access token
+//        AccessToken token = new AccessToken.Builder(
+//                System.getProperty("AC66bc64965d81ae519b6326a8090fde4c"),
+//                System.getProperty("SK76aa34aceb99c0309087ac8b17ac538a"),
+//                System.getProperty("VjNenmtap59MW9mnOnGqRdXaB47oJ59q")
+//        ).identity(identity).grant(grant).build();
+//        System.out.println(token.toJwt());
+//        return token.toJwt();
+//    }
+//
+//    private static String call(final String to) {
+//        VoiceResponse voiceResponse;
+//        String toXml = null;
+//        if (to == null || to.isEmpty()) {
+//            Say say = new Say.Builder("Congratulations! You have made your first call! Good bye.").build();
+//            voiceResponse = new VoiceResponse.Builder().say(say).build();
+//        } else if (isPhoneNumber(to)) {
+//            Number number = new Number.Builder(to).build();
+//            Dial dial = new Dial.Builder().callerId(CALLER_NUMBER).number(number)
+//                    .build();
+//            voiceResponse = new VoiceResponse.Builder().dial(dial).build();
+//        } else {
+//            Client client = new Client.Builder(to).build();
+//            Dial dial = new Dial.Builder().callerId(CALLER_ID).client(client)
+//                    .build();
+//            voiceResponse = new VoiceResponse.Builder().dial(dial).build();
+//        }
+//        try {
+//            toXml = voiceResponse.toXml();
+//        } catch (TwiMLException e) {
+//            e.printStackTrace();
+//        }
+//        return toXml;
+//    }
+//
+//    private static String callUsingRestClient(final String to, final URI uri) {
+//        final TwilioRestClient client = new TwilioRestClient.Builder(System.getProperty("SK76aa34aceb99c0309087ac8b17ac538a"), System.getProperty("VjNenmtap59MW9mnOnGqRdXaB47oJ59q"))
+//                .accountSid(System.getProperty("AC66bc64965d81ae519b6326a8090fde4c"))
+//                .build();
+//
+//        if (to == null || to.isEmpty()) {
+//            com.twilio.type.Client clientEndpoint = new com.twilio.type.Client("client:" + IDENTITY);
+//            PhoneNumber from = new PhoneNumber(CALLER_ID);
+//            // Make the call
+//            Call call = Call.creator(clientEndpoint, from, uri).setMethod(HttpMethod.GET).create(client);
+//            // Print the call SID (a 32 digit hex like CA123..)
+//            System.out.println(call.getSid());
+//            return call.getSid();
+//        } else if (isNumeric(to)) {
+//            com.twilio.type.Client clientEndpoint = new com.twilio.type.Client(to);
+//            PhoneNumber from = new PhoneNumber(CALLER_NUMBER);
+//            // Make the call
+//            Call call = Call.creator(clientEndpoint, from, uri).setMethod(HttpMethod.GET).create(client);
+//            // Print the call SID (a 32 digit hex like CA123..)
+//            System.out.println(call.getSid());
+//            return call.getSid();
+//        } else {
+//            com.twilio.type.Client clientEndpoint = new com.twilio.type.Client("client:" + to);
+//            PhoneNumber from = new PhoneNumber(CALLER_ID);
+//            // Make the call
+//            Call call = Call.creator(clientEndpoint, from, uri).setMethod(HttpMethod.GET).create(client);
+//            // Print the call SID (a 32 digit hex like CA123..)
+//            System.out.println(call.getSid());
+//            return call.getSid();
+//        }
+//    }
+//
+//    private static String greet() {
+//        VoiceResponse voiceResponse;
+//        Say say = new Say.Builder("Congratulations! You have received your first inbound call! Good bye.").build();
+//        voiceResponse = new VoiceResponse.Builder().say(say).build();
+//        System.out.println(voiceResponse.toXml().toString());
+//        return voiceResponse.toXml();
+//    }
+//
+//    private static String welcome() {
+//        VoiceResponse voiceResponse;
+//        Say say = new Say.Builder("Welcome to Twilio").build();
+//        voiceResponse = new VoiceResponse.Builder().say(say).build();
+//        System.out.println(voiceResponse.toXml().toString());
+//        return voiceResponse.toXml();
+//    }
+//
+//    private static void dotenv() throws Exception {
+//        final File env = new File(".env");
+//        if (!env.exists()) {
+//            return;
+//        }
+//
+//        final Properties props = new Properties();
+//        props.load(new FileInputStream(env));
+//        props.putAll(System.getenv());
+//        props.entrySet().forEach(p -> System.setProperty(p.getKey().toString(), p.getValue().toString()));
+//    }
+//
+//    private static Map<String, String> toMap(final List<NameValuePair> pairs) {
+//        Map<String, String> map = new HashMap<>();
+//        for (int i = 0; i < pairs.size(); i++) {
+//            NameValuePair pair = pairs.get(i);
+//            System.out.println("NameValuePair - name=" + pair.getName() + " value=" + pair.getValue());
+//            map.put(pair.getName(), pair.getValue());
+//        }
+//        return map;
+//    }
+//
+//    private static boolean isPhoneNumber(String s) {
+//        if (s.length() == 1) {
+//            return isNumeric(s);
+//        } else if (s.charAt(0) == '+') {
+//            return isNumeric(s.substring(1));
+//        } else {
+//            return isNumeric(s);
+//        }
+//    }
+//
+//    private static boolean isNumeric(String s) {
+//        int len = s.length();
+//        for (int i = 0; i < len; ++i) {
+//            if (!Character.isDigit(s.charAt(i))) {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 }

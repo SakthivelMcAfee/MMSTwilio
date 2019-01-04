@@ -1,1 +1,1 @@
-web:sh target/bin/com.twilio.Webapp
+web: target/bin/com.twilio.Webapp

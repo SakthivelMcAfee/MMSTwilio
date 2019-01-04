@@ -41,6 +41,8 @@ public class Webapp {
     static final String CALLER_NUMBER = "+918095836743";
 
     public static void main(String[] args) throws Exception {
+        
+        System.out.println("Inside webapp main");
         // Load the .env file into environment
         dotenv();
 

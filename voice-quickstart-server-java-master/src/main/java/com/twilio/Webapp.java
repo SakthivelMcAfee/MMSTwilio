@@ -19,9 +19,9 @@ import java.util.Properties;
 
 import java.net.URI;
 
-//import static spark.Spark.afterAfter;
-//import static spark.Spark.get;
-//import static spark.Spark.post;
+import static spark.Spark.afterAfter;
+import static spark.Spark.get;
+import static spark.Spark.post;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -47,7 +47,7 @@ public class Webapp {
         dotenv();
 
         // Log all requests and responses
-      //  afterAfter(new LoggingFilter());
+        afterAfter(new LoggingFilter());
 
         get("/", (request, response) -> {
             return welcome();

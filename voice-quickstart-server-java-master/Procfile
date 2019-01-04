@@ -1,2 +1,2 @@
 mvn package
-web: java -cp target/classes/:target/dependency/* Webapp
+web: java -cp target/classes/:target/dependency/* com.twilio.Webapp
